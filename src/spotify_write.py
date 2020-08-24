@@ -40,7 +40,7 @@ def write_tracks(qty):
         hashValue = hash('SONG=' + spotify.song() + ';' +
                          'ARTIST=' + spotify.artist())
         data.write(hashValue + '\n')
-        print('Track {}/{}'.format(i+1, qty))
+        print('Track {}/{}'.format(i+1, qty) + ' | ' + hashValue + ' | ' + spotify.song() + ' | ' + spotify.artist())
         next_track()
 
     play_pause()
