@@ -9,38 +9,43 @@ Please start the script with Spotify open and on 'PAUSE'!
 from SwSpotify import spotify
 import hashlib
 import pyautogui
+import sys
 import time
 
 
-def playPause():
+# Functions for media keys
+def play_pause():
     pyautogui.press('playpause')
 
-def nextTrack():
+def next_track():
     pyautogui.press('nexttrack')
 
-def prevTrack():
+def prev_track():
     pyautogui.press('prevtrack')
 
 
+# Hash value calculation (SHA1)
 def hash(value):
     hashObject = hashlib.sha1(value.encode())
     return hashObject.hexdigest()
 
 
-def writeTracks(qty):
+# Loop over tracks and write hash to file
+def write_tracks(qty):
     data = open('data.csv', 'a', newline='\n')
-    playPause()
+    play_pause()
 
     for i in range(qty):
+        time.sleep(0.7)
         hashValue = hash('SONG=' + spotify.song() + ';' +
                          'ARTIST=' + spotify.artist())
         data.write(hashValue + '\n')
-        time.sleep(0.5)
-        nextTrack()
+        print('Track {}/{}'.format(i+1, qty))
+        next_track()
 
-    playPause()
+    play_pause()
     data.close()
 
 
 if __name__ == "__main__":
-    writeTracks(50)
+    write_tracks(int(sys.argv[1]))
